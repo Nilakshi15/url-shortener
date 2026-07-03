@@ -3,6 +3,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
+const urlRoutes = require("./routes/urlRoutes");
+
 const app = express();
 
 // Security middleware
@@ -16,5 +18,7 @@ app.use(express.json());
 
 // Log HTTP requests
 app.use(morgan("dev"));
+
+app.use("/api/v1", urlRoutes);
 
 module.exports = app;
