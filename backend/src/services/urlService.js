@@ -2,24 +2,42 @@ const urlRepository = require("../repositories/urlRepository");
 const { encode } = require("../utils/base62");
 
 /**
- * Creates a shortened URL.
+ * Create Short URL
  */
 async function createShortUrl(originalUrl) {
-  // Step 1: Insert URL into database
+
+  const existing = await urlRepository.findByOriginalUrl(originalUrl);
+
+  if (existing) {
+    return existing;
+  }
+
   const url = await urlRepository.createUrl(originalUrl);
 
-  // Step 2: Generate Base62 short code from database ID
   const shortCode = encode(url.id);
 
-  // Step 3: Update the database with the generated short code
-  const updatedUrl = await urlRepository.updateShortCode(
-    url.id,
-    shortCode
-  );
+  return await urlRepository.updateShortCode(url.id, shortCode);
+}
 
-  return updatedUrl;
+/**
+ * Get Original URL
+ */
+async function getOriginalUrl(shortCode) {
+  const url = await urlRepository.findByShortCode(shortCode);
+
+  if (!url) {
+    return null;
+  }
+
+  // Expiry check (future-proof)
+  if (url.expires_at && new Date(url.expires_at) < new Date()) {
+    return null;
+  }
+
+  return url;
 }
 
 module.exports = {
   createShortUrl,
+  getOriginalUrl,
 };

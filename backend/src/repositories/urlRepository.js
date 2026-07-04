@@ -49,8 +49,21 @@ async function findByShortCode(shortCode) {
   return rows[0];
 }
 
+async function findByOriginalUrl(originalUrl) {
+  const query = `
+    SELECT *
+    FROM urls
+    WHERE original_url = $1;
+  `;
+
+  const { rows } = await pool.query(query, [originalUrl]);
+
+  return rows[0];
+}
+
 module.exports = {
   createUrl,
   updateShortCode,
   findByShortCode,
+  findByOriginalUrl,
 };

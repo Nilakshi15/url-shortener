@@ -7,7 +7,6 @@ async function shortenUrl(req, res) {
   try {
     const { url } = req.body;
 
-    // Basic validation
     if (!url) {
       return res.status(400).json({
         success: false,
@@ -37,6 +36,43 @@ async function shortenUrl(req, res) {
   }
 }
 
+/**
+ * GET /:code
+ */
+async function redirectToOriginalUrl(req, res) {
+  try {
+    const { code } = req.params;
+
+    const url = await urlService.getOriginalUrl(code);
+
+    if (!url) {
+      return res.status(400).json({
+        success: false,
+        message: "URL is required",
+      });
+    }
+
+    try {
+      new URL(url);
+    } catch {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid URL",
+      });
+    }
+
+    return res.redirect(url.original_url);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}
+
 module.exports = {
   shortenUrl,
+  redirectToOriginalUrl,
 };
