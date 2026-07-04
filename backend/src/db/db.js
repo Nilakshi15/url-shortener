@@ -17,7 +17,7 @@ pool.connect()
   })
   .catch((err) => {
     console.error("❌ Database connection failed");
-    console.error(err); // VERY IMPORTANT
+    console.error(err); 
     process.exit(1);
   });
 
