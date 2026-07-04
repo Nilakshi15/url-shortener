@@ -61,9 +61,25 @@ async function findByOriginalUrl(originalUrl) {
   return rows[0];
 }
 
+async function createCustomUrl(originalUrl, alias) {
+  const query = `
+    INSERT INTO urls (original_url, short_code)
+    VALUES ($1, $2)
+    RETURNING *;
+  `;
+
+  const { rows } = await pool.query(query, [
+    originalUrl,
+    alias,
+  ]);
+
+  return rows[0];
+}
+
 module.exports = {
   createUrl,
   updateShortCode,
   findByShortCode,
   findByOriginalUrl,
+  createCustomUrl,
 };

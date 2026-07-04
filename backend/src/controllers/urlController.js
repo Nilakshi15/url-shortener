@@ -1,20 +1,40 @@
 const urlService = require("../services/urlService");
+const {
+  validateUrl,
+  validateAlias,
+} = require("../utils/validators");
 
 /**
  * POST /api/v1/shorten
  */
 async function shortenUrl(req, res) {
   try {
-    const { url } = req.body;
+    const { url, alias } = req.body;
 
-    if (!url) {
+    // Validate URL
+    const urlValidation = validateUrl(url);
+
+    if (!urlValidation.valid) {
       return res.status(400).json({
         success: false,
-        message: "URL is required",
+        message: urlValidation.message,
       });
     }
 
-    const shortenedUrl = await urlService.createShortUrl(url);
+    // Validate custom alias (optional)
+    const aliasValidation = validateAlias(alias);
+
+    if (!aliasValidation.valid) {
+      return res.status(400).json({
+        success: false,
+        message: aliasValidation.message,
+      });
+    }
+
+    const shortenedUrl = await urlService.createShortUrl(
+      urlValidation.value,
+      aliasValidation.value
+    );
 
     return res.status(201).json({
       success: true,
@@ -27,6 +47,14 @@ async function shortenUrl(req, res) {
       },
     });
   } catch (error) {
+    // PostgreSQL UNIQUE constraint violation
+    if (error.code === "23505") {
+      return res.status(409).json({
+        success: false,
+        message: "Alias already exists",
+      });
+    }
+
     console.error(error);
 
     return res.status(500).json({
@@ -46,23 +74,20 @@ async function redirectToOriginalUrl(req, res) {
     const url = await urlService.getOriginalUrl(code);
 
     if (!url) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
-        message: "URL is required",
-      });
-    }
-
-    try {
-      new URL(url);
-    } catch {
-      return res.status(400).json({
-        success: false,
-        message: "Please provide a valid URL",
+        message: "Short URL not found",
       });
     }
 
     return res.redirect(url.original_url);
   } catch (error) {
+    if (error.code === "23505") {
+      return res.status(409).json({
+        success: false,
+        message: "Alias already exists",
+      });
+    }
     console.error(error);
 
     return res.status(500).json({

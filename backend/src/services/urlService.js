@@ -4,19 +4,31 @@ const { encode } = require("../utils/base62");
 /**
  * Create Short URL
  */
-async function createShortUrl(originalUrl) {
+async function createShortUrl(originalUrl, alias = null) {
 
-  const existing = await urlRepository.findByOriginalUrl(originalUrl);
+  const existing =
+    await urlRepository.findByOriginalUrl(originalUrl);
 
   if (existing) {
     return existing;
   }
 
-  const url = await urlRepository.createUrl(originalUrl);
+  if (alias) {
+    return await urlRepository.createCustomUrl(
+      originalUrl,
+      alias
+    );
+  }
+
+  const url =
+    await urlRepository.createUrl(originalUrl);
 
   const shortCode = encode(url.id);
 
-  return await urlRepository.updateShortCode(url.id, shortCode);
+  return await urlRepository.updateShortCode(
+    url.id,
+    shortCode
+  );
 }
 
 /**
