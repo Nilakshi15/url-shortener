@@ -1,5 +1,8 @@
 require("dotenv").config();
 
+const {
+  startAnalyticsWorker,
+} = require("./workers/analyticsWorker");
 const app = require("./app");
 const pool = require("./db/db");
 const { connectRedis } = require("./config/redis");
@@ -14,6 +17,8 @@ async function startServer() {
 
     // Redis Connection
     await connectRedis();
+
+    startAnalyticsWorker();
 
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on http://localhost:${PORT}`);

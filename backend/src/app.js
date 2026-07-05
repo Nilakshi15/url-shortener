@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
+const analyticsRoutes = require("./routes/analyticsRoutes");
 const urlRoutes = require("./routes/urlRoutes");
 const redirectRoutes = require("./routes/redirectRoutes");
 
@@ -14,6 +15,8 @@ app.use(helmet());
 app.use(morgan("dev"));
 
 app.use("/api/v1", urlRoutes);
+app.use("/api/v1", analyticsRoutes);
+app.use("/", redirectRoutes);
 
 app.get("/", (req, res) => {
   res.json({
@@ -21,8 +24,5 @@ app.get("/", (req, res) => {
     message: "URL Shortener API is running 🚀",
   });
 });
-
-// Redirect route
-app.use("/", redirectRoutes);
 
 module.exports = app;

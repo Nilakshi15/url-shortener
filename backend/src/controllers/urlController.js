@@ -1,3 +1,4 @@
+const analyticsQueue = require("../queue/analyticsQueue");
 const urlService = require("../services/urlService");
 const {
   validateUrl,
@@ -82,7 +83,16 @@ async function redirectToOriginalUrl(req, res) {
       });
     }
 
-    return res.redirect(url.original_url);
+    // Add analytics event to queue
+  analyticsQueue.enqueue({
+    short_code: code,
+    ip_address: req.ip,
+    referrer: req.get("Referer") || null,
+    user_agent: req.get("User-Agent") || null,
+  });
+
+  // Redirect immediately
+  return res.redirect(url.original_url);
   } catch (error) {
     if (error.code === "23505") {
       return res.status(409).json({
