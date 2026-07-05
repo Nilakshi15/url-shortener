@@ -59,7 +59,9 @@ async function shortenUrl(req, res) {
 
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
+      code: error.code,
+      detail: error.detail,
     });
   }
 }

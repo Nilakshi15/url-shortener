@@ -1,9 +1,14 @@
 const express = require("express");
+
 const router = express.Router();
 
 const urlController = require("../controllers/urlController");
+const shortenLimiter = require("../middleware/rateLimiter");
 
-// API
-router.post("/shorten", urlController.shortenUrl);
+router.post(
+  "/shorten",
+  shortenLimiter,
+  urlController.shortenUrl
+);
 
 module.exports = router;
