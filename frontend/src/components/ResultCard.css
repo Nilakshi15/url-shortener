@@ -1,0 +1,154 @@
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeUp 0.3s var(--ease);
+  /* Subtle top accent line */
+  border-top: 2px solid var(--accent);
+}
+
+/* ─── Header row ─────────────────────────────────────────────── */
+.result-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result-card__reset {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.result-card__reset:hover {
+  color: var(--text-1);
+}
+
+/* ─── Short URL box ──────────────────────────────────────────── */
+.result-card__url-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.result-card__short-url {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-1);
+  letter-spacing: 0.01em;
+  word-break: break-all;
+  flex: 1;
+}
+
+.result-card__cursor {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 300;
+  animation: blink 0.9s step-end infinite;
+  margin-left: 1px;
+}
+
+/* ─── Copy button ────────────────────────────────────────────── */
+.result-card__copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  /* Default: indigo */
+  background: var(--accent-glow);
+  color: var(--accent-text);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+              border-color 0.25s var(--ease), transform 0.1s var(--ease);
+}
+
+.result-card__copy-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+
+.result-card__copy-btn--copied {
+  /* Copied: green */
+  background: var(--success-glow);
+  color: var(--success);
+  border-color: rgba(16, 185, 129, 0.3);
+  animation: pulse-ring 0.4s var(--ease) forwards;
+}
+
+/* ─── Original URL ───────────────────────────────────────────── */
+.result-card__original {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.result-card__original-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.result-card__original-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-2);
+  text-decoration: none;
+  overflow: hidden;
+  transition: color 0.15s;
+}
+
+.result-card__original-link:hover {
+  color: var(--text-1);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.result-card__footer {
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.result-card__analytics-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-text);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.result-card__analytics-link:hover {
+  color: var(--text-1);
+}

@@ -76,10 +76,39 @@ async function createCustomUrl(originalUrl, alias) {
   return rows[0];
 }
 
+/**
+ * Get all URLs with click counts
+ */
+
+async function getAllUrls() {
+  const query = `
+    SELECT
+      u.id,
+      u.original_url,
+      u.short_code,
+      u.created_at,
+      COUNT(c.id)::INT AS total_clicks
+    FROM urls u
+    LEFT JOIN clicks c
+      ON u.short_code = c.short_code
+    GROUP BY
+      u.id,
+      u.original_url,
+      u.short_code,
+      u.created_at
+    ORDER BY u.created_at DESC;
+  `;
+
+  const { rows } = await pool.query(query);
+
+  return rows;
+}
+
 module.exports = {
   createUrl,
   updateShortCode,
   findByShortCode,
   findByOriginalUrl,
+  getAllUrls,
   createCustomUrl,
 };

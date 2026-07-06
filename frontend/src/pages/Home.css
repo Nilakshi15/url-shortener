@@ -1,0 +1,87 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────── */
+.home__hero {
+  text-align: center;
+  padding: 48px 0 0;
+  animation: fadeUp 0.5s var(--ease);
+}
+
+.home__eyebrow {
+  margin-bottom: 20px;
+}
+
+.home__title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 60px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--text-1);
+  margin-bottom: 16px;
+}
+
+.home__title-dot {
+  color: var(--accent);
+}
+
+.home__subtitle {
+  font-size: 15px;
+  color: var(--text-2);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ─── Form section ───────────────────────────────────────────── */
+.home__form-section {
+  animation: fadeUp 0.5s 0.1s var(--ease) both;
+}
+
+/* ─── Features ───────────────────────────────────────────────── */
+.home__features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  animation: fadeUp 0.5s 0.2s var(--ease) both;
+}
+
+.home__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.home__feature:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+}
+
+.home__feature-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.home__feature-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 2px;
+}
+
+.home__feature-desc {
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.5;
+}

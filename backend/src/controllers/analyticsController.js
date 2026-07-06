@@ -1,15 +1,13 @@
-const analyticsService = require("../services/analyticsService");
+const clickRepository = require("../repositories/clickRepository");
 
-/**
- * GET /api/v1/analytics/:code
- */
 async function getAnalytics(req, res) {
   try {
     const { code } = req.params;
 
-    const analytics = await analyticsService.getAnalytics(code);
+    const analytics =
+      await clickRepository.getAnalytics(code);
 
-    if (analytics.length === 0) {
+    if (!analytics) {
       return res.status(404).json({
         success: false,
         message: "No analytics found",
@@ -18,7 +16,6 @@ async function getAnalytics(req, res) {
 
     return res.status(200).json({
       success: true,
-      total_clicks: analytics.length,
       data: analytics,
     });
 

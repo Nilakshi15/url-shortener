@@ -34,9 +34,6 @@ async function createShortUrl(originalUrl, alias = null) {
 /**
  * Get Original URL
  */
-/**
- * Get Original URL
- */
 async function getOriginalUrl(shortCode) {
   console.log("getOriginalUrl called with:", shortCode);
   // 1. Check Redis first
@@ -74,7 +71,15 @@ async function getOriginalUrl(shortCode) {
   return url;
 }
 
+/**
+ * Get all shortened URLs
+ */
+async function getAllUrls() {
+  return await urlRepository.getAllUrls();
+}
+
 module.exports = {
   createShortUrl,
   getOriginalUrl,
+  getAllUrls,
 };

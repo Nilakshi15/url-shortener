@@ -109,7 +109,31 @@ async function redirectToOriginalUrl(req, res) {
   }
 }
 
+/**
+ * GET /api/v1/urls
+ */
+async function getAllUrls(req, res) {
+  try {
+    const urls = await urlService.getAllUrls();
+
+    const data = urls.map((url) => ({
+      ...url,
+      short_url: `${req.protocol}://${req.get("host")}/${url.short_code}`,
+    }));
+
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}
+
 module.exports = {
   shortenUrl,
   redirectToOriginalUrl,
+  getAllUrls,
 };
