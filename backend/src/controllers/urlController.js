@@ -43,7 +43,7 @@ async function shortenUrl(req, res) {
         id: shortenedUrl.id,
         original_url: shortenedUrl.original_url,
         short_code: shortenedUrl.short_code,
-        short_url: `${req.protocol}://${req.get("host")}/${shortenedUrl.short_code}`,
+        short_url: `${process.env.BASE_URL}/${shortenedUrl.short_code}`,
         created_at: shortenedUrl.created_at,
       },
     });
@@ -118,7 +118,7 @@ async function getAllUrls(req, res) {
 
     const data = urls.map((url) => ({
       ...url,
-      short_url: `${req.protocol}://${req.get("host")}/${url.short_code}`,
+      short_url: `${process.env.BASE_URL}/${url.short_code}`,
     }));
 
     return res.status(200).json(data);

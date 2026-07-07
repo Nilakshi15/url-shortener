@@ -3,7 +3,7 @@ require("dotenv").config();
 const {
   startAnalyticsWorker,
 } = require("./workers/analyticsWorker");
-const app = require("./app.js");
+const app = require("./app");
 const pool = require("./db/db");
 const { connectRedis } = require("./config/redis");
 
