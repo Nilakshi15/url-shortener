@@ -433,13 +433,13 @@ Future improvements
 
 ## Home Page
 
-![Home Page](<home_page.png>)
+![Home Page](<Images/home_page.png>)
 
 ---
 
 ## Dashboard
 
-![Dashboard](dashboard_page.png)
+![Dashboard](Images/dashboard_page.png)
 
 ---
 
